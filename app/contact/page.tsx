@@ -137,17 +137,12 @@ export default function ContactPage() {
 const contactInfo = [
   {
     title: "Email",
-    details: "hello@modernblog.com",
+    details: "hello@buidlonbase.site",
     icon: Mail,
   },
   {
-    title: "Live Chat",
-    details: "Available Monday to Friday, 9am - 5pm EST",
+    title: "Warpcast",
+    details: "probuidlonbase",
     icon: MessageSquare,
-  },
-  {
-    title: "Office",
-    details: "123 Blog Street, Digital City, 12345",
-    icon: MapPin,
   },
 ];

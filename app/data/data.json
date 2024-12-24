@@ -1,60 +1,197 @@
 {
   "blogPosts": [
     {
-      "title": "Getting Started with Next.js",
-      "slug": "getting-started-with-nextjs",
-      "excerpt": "Learn how to build modern web applications with Next.js",
+      "title": "Adding Onchainkit To A Project",
+      "slug": "adding-onchainkit-to-a-project",
+      "excerpt": "Learn how to set up OnchainKit and daisyUI for your Next.js projects.",
       "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
-      "categories": ["Next.js", "React"],
+      "categories": ["Next.js", "OnchainKit", "daisyUI", "Web Development"],
       "author": {
-        "name": "John Doe",
+        "name": "Buidl On Base",
+        "avatar": "https://cdn.hashnode.com/res/hashnode/image/upload/v1723407266251/xP3eTyX70.png?w=100&q=80"
+      },
+      "date": "Jul 19, 2024",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "The buidl-on-base-starter folder is the starting point for all development exercises."
+        }
+      ]
+    },
+    
+    {
+      "title": "Solidity Development I",
+      "slug": "solidity-development-i",
+      "excerpt": "This guide helps enthusiasts in the blockchain ecosystem learn all about Solidity development.",
+      "image": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&q=80",
+      "categories": ["Solidity", "Smart Contracts", "Blockchain Development", "Base"],
+      "author": {
+        "name": "Adeola Aregbesola",
         "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80"
       },
-      "date": "Mar 10, 2024"
+      "date": "Aug 24, 2024",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "This guide is to help enthusiasts in the blockchain ecosystem learn all about Solidity development."
+        }
+      ]
     },
     {
-      "title": "Mastering TypeScript",
-      "slug": "mastering-typescript", 
-      "excerpt": "Essential TypeScript concepts every developer should know",
-      "image": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&q=80",
-      "categories": ["TypeScript", "Programming"],
+      "title": "Create A Whitelisting Application",
+      "slug": "create-a-whitelisting-application",
+      "excerpt": "Learn how to develop a whitelisting application for approved wallet addresses, commonly used in NFT mints or token airdrops.",
+      "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
+      "categories": ["Blockchain Development", "Smart Contracts", "Ethereum", "Hardhat"],
       "author": {
-        "name": "Jane Smith",
-        "avatar": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80"
+        "name": "Buidl On Base",
+        "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80"
       },
-      "date": "Mar 8, 2024"
-    },
-    {
-      "title": "Web Design Trends 2024",
-      "slug": "web-design-trends-2024",
-      "excerpt": "Explore the latest trends in web design and development", 
-      "image": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80",
-      "categories": ["Design", "Trends"],
-      "author": {
-        "name": "Mike Johnson",
-        "avatar": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80"
-      },
-      "date": "Mar 5, 2024"
+      "date": "Jul 20, 2024",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Many projects, whether for an NFT mint or a token airdrop, employ whitelisting of approved wallet addresses. In this guide, we will create an application that whitelists connected wallets."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "The Smart Contract"
+        },
+        {
+          "type": "paragraph",
+          "text": "To start, clone the following repository from GitHub and rename it to 'whitelist-app':"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "git clone https://github.com/projectbuidlonbase/buidl-on-base-starter\nmv buidl-on-base-starter whitelist-app"
+        },
+        {
+          "type": "paragraph",
+          "text": "Navigate to the 'hardhat' subdirectory and initialize a Node.js project. Then, install Hardhat:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "cd whitelist-app/hardhat\nnpm init --yes\nnpm install --save-dev hardhat"
+        },
+        {
+          "type": "paragraph",
+          "text": "Set up a new Hardhat project:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npx hardhat"
+        },
+        {
+          "type": "paragraph",
+          "text": "When prompted, select 'Create a JavaScript project' and accept the default settings."
+        },
+        {
+          "type": "paragraph",
+          "text": "Open the project directory with your code editor, navigate to the 'contracts' folder, and delete the 'Lock.sol' file. Create a new file named 'Whitelist.sol' and add the following code:"
+        },
+        {
+          "type": "code",
+          "language": "solidity",
+          "code": "// SPDX-License-Identifier: Unlicense\npragma solidity ^0.8.0;\n\ncontract Whitelist {\n    uint8 public maxWhitelistedAddresses;\n    mapping(address => bool) public whitelistedAddresses;\n    uint8 public numAddressesWhitelisted;\n\n    constructor(uint8 _maxWhitelistedAddresses) {\n        maxWhitelistedAddresses =  _maxWhitelistedAddresses;\n    }\n\n    function addAddressToWhitelist() public {\n        require(!whitelistedAddresses[msg.sender], \"Sender has already been whitelisted\");\n        require(numAddressesWhitelisted < maxWhitelistedAddresses, \"More addresses can't be added, limit reached\");\n        whitelistedAddresses[msg.sender] = true;\n        numAddressesWhitelisted += 1;\n    }\n}"
+        },
+        {
+          "type": "paragraph",
+          "text": "Before deploying the contract, install the 'dotenv' package to handle environment variables:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npm install dotenv"
+        },
+        {
+          "type": "paragraph",
+          "text": "Create a '.env' file in the 'hardhat' folder and add your deployer's private key:"
+        },
+        {
+          "type": "code",
+          "language": "env",
+          "code": "WALLET_KEY=YOUR_DEPLOYER_PRIVATE_KEY"
+        },
+        {
+          "type": "paragraph",
+          "text": "Replace 'YOUR_DEPLOYER_PRIVATE_KEY' with the actual private key from the wallet address you are using to deploy the contract. Ensure that the wallet has Base Sepolia ETH to deploy the contract. Please be extremely careful with your private key; it's advised to use a development wallet for this purpose."
+        },
+        {
+          "type": "paragraph",
+          "text": "Create a 'scripts' folder in the 'hardhat' directory and add a 'deploy.js' file with the following content:"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "code": "const hre = require(\"hardhat\");\n\nasync function main() {\n  const whitelistContract = await hre.ethers.deployContract(\"Whitelist\", [10]);\n  await whitelistContract.waitForDeployment();\n  console.log(\"Whitelist Contract deployed to:\", whitelistContract.target);\n}\n\nmain().catch((error) => {\n  console.error(error);\n  process.exitCode = 1;\n});"
+        },
+        {
+          "type": "paragraph",
+          "text": "This script deploys the 'Whitelist' contract with a maximum of 10 whitelisted addresses."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Deploying the Contract"
+        },
+        {
+          "type": "paragraph",
+          "text": "To deploy the contract, add the Base Sepolia network configuration to 'hardhat.config.js':"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "code": "require(\"@nomicfoundation/hardhat-toolbox\");\nrequire(\"dotenv\").config();\n\nconst WALLET_KEY = process.env.WALLET_KEY;\n\nmodule.exports = {\n  solidity: \"0.8.0\",\n  networks: {\n    baseSepolia: {\n      url: \"https://sepolia.base.org\",\n      accounts: [WALLET_KEY],\n    },\n  },\n};"
+        },
+        {
+          "type": "paragraph",
+          "text": "Run the deployment script:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npx hardhat run scripts/deploy.js --network baseSepolia"
+        },
+        {
+          "type": "paragraph",
+          "text": "After deployment, the console will log the address of the deployed contract."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Frontend Integration"
+        },
+        {
+          "type": "paragraph",
+          "text": "Navigate to the 'web' subdirectory and install the necessary dependencies:"
+        }
+      ]
     }
+        
+    
   ],
   "featuredPosts": [
     {
-      "title": "Getting Started with Next.js",
-      "slug": "getting-started-with-nextjs",
-      "excerpt": "Learn how to build modern web applications with Next.js",
-      "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80"
+      "title": "Adding Onchainkit To A Project",
+      "slug": "adding-onchainkit-to-a-project",
+      "excerpt": "Learn how to set up OnchainKit and daisyUI for your Next.js projects.",
+      "image": "https://cdn.hashnode.com/res/hashnode/image/stock/unsplash/cckf4TsHAuw/upload/75e9794a3dda173e69c122f12669b5f8.jpeg?w=800&q=80"
     },
     {
-      "title": "Mastering TypeScript",
-      "slug": "mastering-typescript",
-      "excerpt": "Essential TypeScript concepts every developer should know",
-      "image": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&q=80"
+      "title": "Solidity Development I",
+      "slug": "solidity-development-i",
+      "excerpt": "This guide helps enthusiasts in the blockchain ecosystem learn about Solidity development.",
+      "image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1724494633766/19f9ebd6-c76a-4908-b061-4a8ae6de123d.jpeg?w=800&q=80"
     },
     {
-      "title": "Web Design Trends 2024",
-      "slug": "web-design-trends-2024",
-      "excerpt": "Explore the latest trends in web design and development",
-      "image": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&q=80"
+      "title": "Create A Whitelisting Application",
+      "slug": "create-a-whitelisting-application",
+      "excerpt": "Learn how to develop a whitelisting application for approved wallet addresses.",
+      "image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1721489291384/0746233a-7acd-4e51-afed-eaea7278b448.jpeg?w=800&q=80"
     }
   ]
 }

@@ -81,18 +81,9 @@ const features = [
 
 const team = [
   {
-    name: "John Doe",
+    name: "Buidl On Base",
     role: "Founder & Editor",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80",
+    "avatar": "https://cdn.hashnode.com/res/hashnode/image/upload/v1723407266251/xP3eTyX70.png?w=400&q=80"
   },
-  {
-    name: "Jane Smith",
-    role: "Lead Writer",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80",
-  },
-  {
-    name: "Mike Johnson",
-    role: "Technical Editor",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80",
-  },
+
 ];

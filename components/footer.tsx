@@ -3,7 +3,7 @@ export function Footer() {
     <footer className="border-t">
       <div className="container flex h-16 items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Modern Blog. All rights reserved.
+          © {new Date().getFullYear()} Buidl On Base. All rights reserved.
         </p>
       </div>
     </footer>
