@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
 import { ModeToggle } from "@/components/mode-toggle";
-import { Pen } from "lucide-react";
+import Image from "next/image";
 
 export function Navigation() {
   const pathname = usePathname();
+  const { theme } = useTheme();
   
   const routes = [
     { href: "/", label: "Home" },
@@ -20,9 +21,14 @@ export function Navigation() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2">
-          <Pen className="h-6 w-6" />
-          <span className="font-bold">Modern Blog</span>
+      <Link href="/" className="font-semibold text-xl mr-6">
+          <Image 
+            alt="Melobanc Labs" 
+            className="cursor-pointer" 
+            height={50} 
+            width={438} 
+            src={theme === 'dark' ? "/logo-black.png" : "/logo.png"}
+          />
         </Link>
         
         <nav className="flex items-center space-x-6">
