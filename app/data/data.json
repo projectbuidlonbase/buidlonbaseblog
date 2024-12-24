@@ -4,36 +4,420 @@
       "title": "Adding Onchainkit To A Project",
       "slug": "adding-onchainkit-to-a-project",
       "excerpt": "Learn how to set up OnchainKit and daisyUI for your Next.js projects.",
-      "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
+      "image": "https://cdn.hashnode.com/res/hashnode/image/stock/unsplash/cckf4TsHAuw/upload/75e9794a3dda173e69c122f12669b5f8.jpeg?w=800&q=80",
       "categories": ["Next.js", "OnchainKit", "daisyUI", "Web Development"],
       "author": {
         "name": "Buidl On Base",
         "avatar": "https://cdn.hashnode.com/res/hashnode/image/upload/v1723407266251/xP3eTyX70.png?w=100&q=80"
       },
-      "date": "Jul 19, 2024",
-      "content": [
+      "date": "Oct 25, 2024",
+      "read_time": "6 min read",
+      "introduction": "The buidl-on-base-starter folder, downloadable from GitHub, is the starting point for all of our development exercises. It integrates OnchainKit from the Base devs and a Tailwind CSS UI dependency, daisyUI, to enhance our applications.",
+      "steps": [
         {
-          "type": "paragraph",
-          "text": "The buidl-on-base-starter folder is the starting point for all development exercises."
+          "step_number": 1,
+          "description": "Open the terminal in your chosen directory and create the starter folder.",
+          "commands": [
+            "mkdir buidl-on-base-starter",
+            "cd buidl-on-base-starter"
+          ]
+        },
+        {
+          "step_number": 2,
+          "description": "Create a Next.js application using create-next-app.",
+          "commands": [
+            "npx create-next-app@latest web"
+          ],
+          "notes": [
+            "Accept all default options during the setup, including the use of TypeScript."
+          ]
+        },
+        {
+          "step_number": 3,
+          "description": "Navigate to the newly created 'web' directory.",
+          "commands": [
+            "cd web"
+          ]
+        },
+        {
+          "step_number": 4,
+          "description": "Install daisyUI as a Tailwind CSS plugin.",
+          "commands": [
+            "npm i -D daisyui@latest"
+          ],
+          "additional_steps": [
+            {
+              "description": "Modify the tailwind.config.ts file to include daisyUI.",
+              "code_snippet": {
+                "language": "javascript",
+                "code": "module.exports = {\n  //...\n  plugins: [\n    require('daisyui'),\n  ],\n}"
+              }
+            }
+          ]
+        },
+        {
+          "step_number": 5,
+          "description": "Install OnchainKit.",
+          "commands": [
+            "npm install @coinbase/onchainkit"
+          ],
+          "notes": [
+            "Register on the Coinbase Developer Platform for an API key.",
+            "Create a .env file in the 'web' directory and add your API key as PUBLIC_ONCHAINKIT_API_KEY=YOUR_PUBLIC_API_KEY."
+          ]
+        },
+        {
+          "step_number": 6,
+          "description": "Create OnchainProviders.tsx and wagmi.ts files in the '/src/app/' folder with the provided code snippets.",
+          "files": [
+            {
+              "file_name": "OnchainProviders.tsx",
+              "code_snippet": {
+                "language": "javascript",
+                "code": "'use client';\nimport { ReactNode } from 'react';\nimport { OnchainKitProvider } from '@coinbase/onchainkit';\nimport { QueryClient, QueryClientProvider } from '@tanstack/react-query';\nimport { base } from 'viem/chains';\nimport { WagmiProvider } from 'wagmi';\nimport { wagmiConfig } from './wagmi';\n\ntype Props = { children: ReactNode };\n\nconst queryClient = new QueryClient();\n\nfunction OnchainProviders({ children }: Props) {\n  return (\n    <WagmiProvider config={wagmiConfig}>\n      <QueryClientProvider client={queryClient}>\n        <OnchainKitProvider\n          apiKey={process.env.PUBLIC_ONCHAINKIT_API_KEY}\n          chain={base}\n        >\n          {children}\n        </OnchainKitProvider>\n      </QueryClientProvider>\n    </WagmiProvider>\n  );\n}\n\nexport default OnchainProviders;"
+              }
+            },
+            {
+              "file_name": "wagmi.ts",
+              "code_snippet": {
+                "language": "javascript",
+                "code": "import { http, createConfig } from 'wagmi';\nimport { base } from 'wagmi/chains';\nimport { coinbaseWallet } from 'wagmi/connectors';\n\nexport const wagmiConfig = createConfig({\n  chains: [base],\n  multiInjectedProviderDiscovery: false,\n  connectors: [\n    coinbaseWallet({\n      appName: 'yourAppName',\n      preference: 'smartWalletOnly', // set this to `all` to use EOAs as well\n      version: '4',\n    }),\n  ],\n  ssr: true,\n  transports: {\n    [base.id]: http(),\n  },\n});"
+              }
+            }
+          ]
+        }
+      ],
+      "conclusion": "By following these steps, your project will be set up with Next.js, integrated with OnchainKit, and styled using daisyUI, providing a solid foundation for your development exercises.",
+      "references": [
+        {
+          "title": "buidl-on-base-starter GitHub Repository",
+          "url": "https://github.com/your-repo-link"
+        },
+        {
+          "title": "OnchainKit Documentation",
+          "url": "https://onchainkit.xyz"
+        },
+        {
+          "title": "Coinbase Developer Platform",
+          "url": "https://portal.cdp.coinbase.com"
         }
       ]
     },
-    
     {
       "title": "Solidity Development I",
       "slug": "solidity-development-i",
-      "excerpt": "This guide helps enthusiasts in the blockchain ecosystem learn all about Solidity development.",
-      "image": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&q=80",
+      "excerpt": "This guide helps enthusiasts in the blockchain ecosystem learn about Solidity development, including Base, Solidity, smart contracts, and deploying on Base RPC.",
+      "image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1724494633766/19f9ebd6-c76a-4908-b061-4a8ae6de123d.jpeg?w=800&q=80",
       "categories": ["Solidity", "Smart Contracts", "Blockchain Development", "Base"],
       "author": {
-        "name": "Adeola Aregbesola",
-        "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80"
+        "name": "Buidl On Base",
+        "avatar": "https://cdn.hashnode.com/res/hashnode/image/upload/v1723407266251/xP3eTyX70.png?w=100&q=80"
       },
-      "date": "Aug 24, 2024",
+      "date": "Nov 8, 2024",
       "content": [
         {
           "type": "paragraph",
           "text": "This guide is to help enthusiasts in the blockchain ecosystem learn all about Solidity development."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Prerequisites"
+        },
+        {
+          "type": "list",
+          "items": [
+            "What is Base.",
+            "What is Solidity.",
+            "What are Smart contracts.",
+            "Writing a Simple Storage smart contract.",
+            "Deployment on Base RPC."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "In this article, we will explore various ways to get involved in the Base blockchain ecosystem, whether you are new to web3 or a seasoned enthusiast of decentralized networks. The Base blockchain community embodies innovation, inclusivity, and collaboration, making it an ideal platform for participants of all backgrounds. From its developer-friendly environment to its vibrant community initiatives, Base provides multiple avenues for contributing to the evolution of scalable and secure blockchain solutions. Whether you are interested in building decentralized applications (dApps) or simply learning more about blockchain technology, the Base ecosystem offers a supportive space for everyone to play a role in the next phase of blockchain development."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "What is Base?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Base is an Ethereum Layer 2 (L2) network built on the OP Stack, which is the open-source software developed by Optimism. It aims to offer a secure, low-cost, and developer-friendly environment for building decentralized applications (dApps). Base is designed to leverage Ethereum's security while providing scalability and lower transaction costs, making it an attractive platform for developers who want to build on Ethereum without the associated high gas fees and slower transaction speeds."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Technology Stack and Architecture"
+        },
+        {
+          "type": "paragraph",
+          "text": "Base is built on the Ethereum blockchain as a Layer 2 solution, which means it operates on top of the Ethereum network, providing scalability while maintaining security and decentralization. Base utilizes Optimism's OP Stack, a modular framework that allows for easy integration and scalability on the Ethereum network. This framework helps in reducing gas fees and improving transaction throughput."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Key Features"
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Scalability"
+        },
+        {
+          "type": "paragraph",
+          "text": "Base is built to handle a higher volume of transactions compared to the Ethereum mainnet, thanks to its Layer 2 architecture. This allows for faster and cheaper transactions, which is ideal for dApps that require high throughput, such as gaming, decentralized finance (DeFi), and social media platforms."
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Security"
+        },
+        {
+          "type": "paragraph",
+          "text": "As a Layer 2 network, Base inherits the security properties of Ethereum. This means that while transactions are processed on Base, they are ultimately settled on Ethereum, benefiting from its robust security and decentralization."
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "EVM Compatibility"
+        },
+        {
+          "type": "paragraph",
+          "text": "Base is fully compatible with the Ethereum Virtual Machine (EVM), which allows developers to easily deploy their existing Ethereum dApps on Base without significant modifications. This compatibility facilitates seamless migration and integration for projects already operating on Ethereum."
+        },
+        {
+          "type": "heading",
+          "level": 4,
+          "text": "Integration with Coinbase"
+        },
+        {
+          "type": "paragraph",
+          "text": "Base is incubated by Coinbase, a leading cryptocurrency exchange, which provides additional benefits such as access to Coinbase's user base and potential integrations with its suite of products. This affiliation could help drive adoption and trust in the Base network."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "What is Solidity?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Solidity is an object-oriented programming language created specifically by the Ethereum Network team for constructing and designing smart contracts on blockchain platforms."
+        },
+        {
+          "type": "list",
+          "items": [
+            "It’s used to create smart contracts that implement business logic and generate a chain of transaction records in the blockchain system.",
+            "It acts as a tool for creating machine-level code and compiling it on the Ethereum Virtual Machine (EVM).",
+            "It has a lot of similarities with C and C++ and is pretty simple to learn and understand. For example, a “main” in C is equivalent to a “contract” in Solidity."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Like other programming languages, Solidity programming also has variables, functions, classes, arithmetic operations, string manipulation, and many other concepts. We can’t also ignore the fact that Solidity is a high-level programming language specifically designed for writing smart contracts on blockchain platforms, with Ethereum being the most prominent example."
+        },
+        {
+          "type": "paragraph",
+          "text": "A smart contract is a self-executing contract with the terms of the agreement directly written into code. Solidity allows developers to create these contracts by defining rules, conditions, and actions that automatically execute on the blockchain once triggered by predefined events."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Key Features of Solidity"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Smart Contracts: Solidity is primarily used for creating smart contracts. These contracts can automate workflows, manage assets, and execute transactions without intermediaries.",
+            "Inheritance: Solidity supports multiple inheritance, allowing developers to create complex contract structures by inheriting functionalities from parent contracts.",
+            "Libraries: Developers can create reusable code snippets in the form of libraries, promoting modularity and reducing redundancy.",
+            "User-Defined Types: Solidity allows developers to create custom data types through structs and enums"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Getting Started with Base"
+        },
+        {
+          "type": "paragraph",
+          "text": "Base is an Ethereum Layer 2 network built on the OP Stack. It offers a secure, low-cost environment for building decentralized applications."
+        }
+      ]
+    },
+    {
+      "title": "Developing Smart Contracts Locally with Hardhat: A Comprehensive Guide",
+      "slug": "developing-smart-contracts-locally-with-hardhat-a-comprehensive-guide",
+      "excerpt": "Learn how to build, test, and deploy smart contracts locally using Hardhat, a powerful Ethereum development environment.",
+      "image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1725180793878/00ac8d31-410b-4237-8d2c-c92b4205f001.png?w=800&q=80",
+      "categories": ["Ethereum", "Smart Contracts", "Hardhat", "Blockchain Development"],
+      "author": {
+        "name": "Buidl On Base",
+        "avatar": "https://cdn.hashnode.com/res/hashnode/image/upload/v1723407266251/xP3eTyX70.png?w=100&q=80"
+      },
+      "date": "Nov 22, 2024",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Hardhat is a powerful Ethereum development environment that simplifies the process of building, testing, and deploying smart contracts. Whether you're a beginner or an experienced developer, Hardhat provides a suite of tools designed to make local development smooth and efficient. It stands out for its flexibility, allowing you to tailor your development environment to your specific needs."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Why Use Hardhat?"
+        },
+        {
+          "type": "paragraph",
+          "text": "Hardhat is preferred by many developers due to its extensive features. Unlike other tools like Truffle, Hardhat offers advanced debugging capabilities, flexible scripting, and seamless integration with other Ethereum development tools. It’s particularly valuable for its ability to run a local Ethereum network, which mimics the mainnet, enabling thorough testing and debugging before deploying your contracts to live environments."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Prerequisites"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Node.js (version 12.0 or higher)",
+            "npm (Node Package Manager)",
+            "Git (for version control)"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Installing Hardhat"
+        },
+        {
+          "type": "paragraph",
+          "text": "Installing Hardhat is straightforward. Start by installing it as a development dependency in your project:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npm install --save-dev hardhat"
+        },
+        {
+          "type": "paragraph",
+          "text": "Next, set up a new Hardhat project by running:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npx hardhat"
+        },
+        {
+          "type": "paragraph",
+          "text": "This command will guide you through creating a basic Hardhat project, where you can choose to create a sample project or an empty one based on your needs."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Project Structure"
+        },
+        {
+          "type": "paragraph",
+          "text": "Once your project is set up, you’ll notice several directories and files generated by Hardhat:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "contracts/: Contains your Solidity smart contracts.",
+            "scripts/: Holds scripts for deploying your contracts.",
+            "test/: Includes your contract tests, typically written in JavaScript."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Understanding the purpose of these directories will help you organize your code and streamline your development process."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Creating a Simple Contract"
+        },
+        {
+          "type": "paragraph",
+          "text": "Let’s create a basic Solidity contract. Open the `contracts/` directory and create a file named `Storage.sol`:"
+        },
+        {
+          "type": "code",
+          "language": "solidity",
+          "code": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract Storage {\n    uint256 private number;\n\n    function set(uint256 _number) public {\n        number = _number;\n    }\n\n    function get() public view returns (uint256) {\n        return number;\n    }\n}"
+        },
+        {
+          "type": "paragraph",
+          "text": "This contract allows users to store and retrieve a number, a simple yet effective way to understand Solidity’s syntax and contract structure."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Compiling the Contract"
+        },
+        {
+          "type": "paragraph",
+          "text": "To compile your smart contract, use the following command:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npx hardhat compile"
+        },
+        {
+          "type": "paragraph",
+          "text": "Hardhat will compile your contract and create the necessary artifacts in the `artifacts/` directory, which you can use later for deployment and testing."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Writing Tests"
+        },
+        {
+          "type": "paragraph",
+          "text": "Testing is a critical part of smart contract development. Hardhat uses Mocha and Chai for writing and running tests. Create a test file in the `test/` directory:"
+        },
+        {
+          "type": "code",
+          "language": "javascript",
+          "code": "const { expect } = require(\"chai\");\n\ndescribe(\"Storage\", function () {\n  it(\"Should store and return the correct value\", async function () {\n    const Storage = await ethers.getContractFactory(\"Storage\");\n    const storage = await Storage.deploy();\n    await storage.deployed();\n\n    await storage.set(42);\n    expect(await storage.get()).to.equal(42);\n  });\n});"
+        },
+        {
+          "type": "paragraph",
+          "text": "This test ensures that the `Storage` contract correctly stores and returns the value passed to it."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Running Tests"
+        },
+        {
+          "type": "paragraph",
+          "text": "Run your tests with:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npx hardhat test"
+        },
+        {
+          "type": "paragraph",
+          "text": "Hardhat will execute the tests and provide feedback on the results, helping you catch any issues early in the development process."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Deploying Your Contract"
+        },
+        {
+          "type": "paragraph",
+          "text": "To deploy your contract to the Base testnet, run:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npx hardhat run scripts/deploy.js --network base-sepolia"
         }
       ]
     },
@@ -41,13 +425,13 @@
       "title": "Create A Whitelisting Application",
       "slug": "create-a-whitelisting-application",
       "excerpt": "Learn how to develop a whitelisting application for approved wallet addresses, commonly used in NFT mints or token airdrops.",
-      "image": "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
+      "image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1721489291384/0746233a-7acd-4e51-afed-eaea7278b448.jpeg?w=800&q=80",
       "categories": ["Blockchain Development", "Smart Contracts", "Ethereum", "Hardhat"],
       "author": {
         "name": "Buidl On Base",
-        "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80"
+        "avatar": "https://cdn.hashnode.com/res/hashnode/image/upload/v1723407266251/xP3eTyX70.png?w=100&q=80"
       },
-      "date": "Jul 20, 2024",
+      "date": "Dec 6, 2024",
       "content": [
         {
           "type": "paragraph",
@@ -170,9 +554,83 @@
           "text": "Navigate to the 'web' subdirectory and install the necessary dependencies:"
         }
       ]
+    },
+    {
+      "title": "Adding Smart Wallet to an Existing Application",
+      "slug": "adding-smart-wallet-to-an-existing-application",
+      "excerpt": "Learn how to integrate Smart Wallet functionality into your existing application, enabling users to create accounts swiftly without the need for additional apps or extensions.",
+      "image": "https://cdn.hashnode.com/res/hashnode/image/upload/v1722784290180/b622e924-bc89-44b9-9080-eb230e540710.jpeg?w=800&q=80",
+      "categories": ["Blockchain Development", "Smart Contracts", "Ethereum", "Hardhat"],
+      "author": {
+        "name": "Buidl On Base",
+        "avatar": "https://cdn.hashnode.com/res/hashnode/image/upload/v1723407266251/xP3eTyX70.png?w=100&q=80"
+      },
+      "date": "Dec 20, 2024",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Smart Wallet allows users to create an account in seconds without needing an app or extension. This is achieved through the use of passkeys for signing in, which are generated and securely stored on users' devices."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Project Setup"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "git clone https://github.com/projectbuidlonbase/buidl-on-base-starter\ncd buidl-on-base-starter"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Adding Smart Wallet Dependencies"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npm install @coinbase/onchainkit"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Implementation"
+        },
+        {
+          "type": "paragraph",
+          "text": "Create a new component for the Smart Wallet button:"
+        },
+        {
+          "type": "code",
+          "language": "typescript",
+          "code": "import { SmartWallet } from '@coinbase/onchainkit';\n\nexport default function WalletButton() {\n  return (\n    <SmartWallet\n      buttonClassName=\"gradient-button\"\n      onboardingButtonLabel=\"Create Account\"\n    />\n  );\n}"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Styling"
+        },
+        {
+          "type": "code",
+          "language": "css",
+          "code": ".gradient-button {\n  background: linear-gradient(to right, #4F46E5, #9333EA);\n  color: white;\n  padding: 0.75rem 1.5rem;\n  border-radius: 0.5rem;\n  font-weight: 600;\n}"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Testing"
+        },
+        {
+          "type": "paragraph",
+          "text": "Test the Smart Wallet integration by running your application locally:"
+        },
+        {
+          "type": "code",
+          "language": "bash",
+          "code": "npm run dev"
+        }
+      ]
     }
-        
-    
   ],
   "featuredPosts": [
     {

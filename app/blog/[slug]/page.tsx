@@ -4,6 +4,27 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { blogPosts } from "../../data/data.json";
 
+interface BlogPost {
+  title: string;
+  slug: string;
+  excerpt: string;
+  image: string;
+  categories: string[];
+  author: {
+    name: string;
+    avatar: string;
+  };
+  date: string;
+  content?: {
+    type: string;
+    text?: string;
+    level?: number;
+    code?: string;
+    language?: string;
+  }[];
+  // ... other post properties
+}
+
 // Generate static params for all blog posts
 export function generateStaticParams() {
   return blogPosts.map((post) => ({
@@ -12,7 +33,7 @@ export function generateStaticParams() {
 }
 
 export default function BlogPost({ params }: { params: { slug: string } }) {
-  const post = blogPosts.find((post) => post.slug === params.slug);
+  const post = blogPosts.find((post) => post.slug === params.slug) as BlogPost;
 
   if (!post) {
     notFound();
@@ -28,9 +49,10 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
       </Button>
 
       <div className="prose prose-stone mx-auto dark:prose-invert">
+        {/* Post Metadata */}
         <div className="space-y-4 text-center">
           <div className="space-x-2">
-            {post.categories.map((category) => (
+            {post.categories.map((category: string) => (
               <span
                 key={category}
                 className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-semibold"
@@ -53,35 +75,38 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           </div>
         </div>
 
+        {/* Featured Image */}
         <img
           src={post.image}
           alt={post.title}
           className="my-8 aspect-video w-full rounded-lg object-cover"
         />
 
+        {/* Post Content */}
         <div className="space-y-4">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-
-          <h2 className="text-2xl font-bold">Getting Started</h2>
-          <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
-          </p>
-
-          <h2 className="text-2xl font-bold">Key Concepts</h2>
-          <p>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-            quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt explicabo.
-          </p>
+          {post.content?.map((block, index) => {
+            switch (block.type) {
+              case "paragraph":
+                return <p key={index}>{block.text}</p>;
+              case "heading":
+                const HeadingTag = `h${block.level || 2}` as keyof JSX.IntrinsicElements;
+                return (
+                  <HeadingTag key={index} className="text-2xl font-bold">
+                    {block.text}
+                  </HeadingTag>
+                );
+              case "code":
+                return (
+                  <pre key={index} className="bg-gray-900 p-4 rounded-md">
+                    <code className={`language-${block.language || 'text'}`}>
+                      {block.code}
+                    </code>
+                  </pre>
+                );
+              default:
+                return null;
+            }
+          })}
         </div>
       </div>
     </article>

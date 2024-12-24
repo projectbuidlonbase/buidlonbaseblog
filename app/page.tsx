@@ -9,10 +9,10 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center space-y-12 px-4 py-16 md:py-24">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-          Welcome to Modern Blog
+          Welcome to Buidl On Base
         </h1>
         <p className="mx-auto max-w-[700px] text-muted-foreground">
-          Discover insightful articles, tutorials, and stories from our community.
+          Discover insightful articles, tutorials, and stories from the Base Community.
         </p>
         <Button asChild size="lg">
           <Link href="/blog">
